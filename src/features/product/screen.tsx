@@ -2,7 +2,7 @@ import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import { Alert, ScrollView, StyleSheet, View } from 'react-native';
-import { ActivityIndicator, Divider, Text } from 'react-native-paper';
+import { ActivityIndicator, Divider, Text, useTheme } from 'react-native-paper';
 import { CustomButton } from '../../components/Button';
 import { CustomCard } from '../../components/Card';
 import { CustomInput } from '../../components/Input';
@@ -12,6 +12,7 @@ import { useProductDetails, useSaleMutation } from './hooks';
 type ProductDetailsRouteProp = RouteProp<RootStackParamList, 'ProductDetails'>;
 
 export default function ProductDetailsScreen() {
+    const theme = useTheme();
     const route = useRoute<ProductDetailsRouteProp>();
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
     const { barcode } = route.params;
@@ -48,7 +49,7 @@ export default function ProductDetailsScreen() {
 
     if (isLoading) {
         return (
-            <View style={styles.center}>
+            <View style={[styles.center, { backgroundColor: theme.colors.background }]}>
                 <ActivityIndicator size="large" />
             </View>
         );
@@ -56,33 +57,33 @@ export default function ProductDetailsScreen() {
 
     if (error || !product) {
         return (
-            <View style={styles.center}>
-                <Text variant="headlineSmall">Product not found</Text>
-                <CustomButton onPress={() => navigation.goBack()}>Go Back</CustomButton>
+            <View style={[styles.center, { backgroundColor: theme.colors.background }]}>
+                <Text variant="headlineSmall" style={{ color: theme.colors.onSurface }}>Product not found</Text>
+                <CustomButton onPress={() => navigation.goBack()} style={{ marginTop: 16 }}>Go Back</CustomButton>
             </View>
         );
     }
 
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView style={[styles.container, { backgroundColor: theme.colors.background }]}>
             <CustomCard style={styles.headerCard}>
-                <Text variant="headlineSmall" style={styles.title}>{product.name}</Text>
-                <Text variant="bodyLarge" style={styles.barcode}>{product.barcode}</Text>
+                <Text variant="headlineSmall" style={[styles.title, { color: theme.colors.onSurface }]}>{product.name}</Text>
+                <Text variant="bodyLarge" style={[styles.barcode, { color: theme.colors.onSurfaceVariant }]}>{product.barcode}</Text>
                 <Divider style={styles.divider} />
                 <View style={styles.infoRow}>
                     <View>
-                        <Text variant="labelMedium">In Stock</Text>
-                        <Text variant="displaySmall" style={styles.stockValue}>{product.quantity}</Text>
+                        <Text variant="labelMedium" style={{ color: theme.colors.onSurfaceVariant }}>In Stock</Text>
+                        <Text variant="displaySmall" style={[styles.stockValue, { color: '#4CAF50' }]}>{product.quantity}</Text>
                     </View>
                     <View style={styles.alignEnd}>
-                        <Text variant="labelMedium">Price</Text>
-                        <Text variant="displaySmall" style={styles.priceValue}>${product.price.toFixed(2)}</Text>
+                        <Text variant="labelMedium" style={{ color: theme.colors.onSurfaceVariant }}>Price</Text>
+                        <Text variant="displaySmall" style={[styles.priceValue, { color: theme.colors.primary }]}>${product.price.toFixed(2)}</Text>
                     </View>
                 </View>
             </CustomCard>
 
             <CustomCard style={styles.saleCard}>
-                <Text variant="titleLarge" style={styles.saleTitle}>Process Sale</Text>
+                <Text variant="titleLarge" style={[styles.saleTitle, { color: theme.colors.onSurface }]}>Process Sale</Text>
                 <CustomInput
                     label="Quantity to Sell"
                     value={quantityToSell}
@@ -105,7 +106,6 @@ export default function ProductDetailsScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f5f5f5',
         padding: 16,
     },
     center: {
@@ -120,10 +120,8 @@ const styles = StyleSheet.create({
     },
     title: {
         fontWeight: 'bold',
-        color: '#1C1B1F',
     },
     barcode: {
-        color: '#666',
         marginTop: 4,
     },
     divider: {
@@ -135,11 +133,9 @@ const styles = StyleSheet.create({
     },
     stockValue: {
         fontWeight: 'bold',
-        color: '#4CAF50',
     },
     priceValue: {
         fontWeight: 'bold',
-        color: '#2196F3',
     },
     alignEnd: {
         alignItems: 'flex-end',

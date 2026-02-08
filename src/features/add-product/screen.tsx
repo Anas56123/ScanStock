@@ -2,7 +2,7 @@ import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import { Alert, ScrollView, StyleSheet } from 'react-native';
-import { Text } from 'react-native-paper';
+import { Text, useTheme } from 'react-native-paper';
 import { CustomButton } from '../../components/Button';
 import { CustomCard } from '../../components/Card';
 import { CustomInput } from '../../components/Input';
@@ -12,6 +12,7 @@ import { useCustomAddProduct } from './hooks';
 type AddProductRouteProp = RouteProp<RootStackParamList, 'AddProduct'>;
 
 export default function AddProductScreen() {
+    const theme = useTheme();
     const route = useRoute<AddProductRouteProp>();
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
     const { barcode, initialName } = route.params;
@@ -44,10 +45,10 @@ export default function AddProductScreen() {
     };
 
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView style={[styles.container, { backgroundColor: theme.colors.background }]}>
             <CustomCard style={styles.card}>
-                <Text variant="headlineSmall" style={styles.title}>New Product</Text>
-                <Text variant="bodyMedium" style={styles.subtitle}>Enter the product details below</Text>
+                <Text variant="headlineSmall" style={[styles.title, { color: theme.colors.onSurface }]}>New Product</Text>
+                <Text variant="bodyMedium" style={[styles.subtitle, { color: theme.colors.onSurfaceVariant }]}>Enter the product details below</Text>
 
                 <CustomInput
                     label="Barcode"
@@ -95,7 +96,6 @@ export default function AddProductScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f5f5f5',
         padding: 16,
     },
     card: {
@@ -105,7 +105,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     subtitle: {
-        color: '#666',
         marginBottom: 24,
     },
     submitButton: {

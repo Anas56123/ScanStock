@@ -20,7 +20,12 @@ export const SaleSchema = z.object({
 
 export type Sale = z.infer<typeof SaleSchema>;
 
+export type UserRole = 'seller' | 'customer';
+
 export type RootStackParamList = {
+    Login: undefined;
+    Signup: undefined;
+    ForgotPassword: undefined;
     Home: undefined;
     Scan: undefined;
     ProductDetails: { barcode: string };

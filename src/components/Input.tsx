@@ -24,6 +24,5 @@ CustomInput.Affix = PaperInput.Affix;
 const styles = StyleSheet.create({
     input: {
         marginVertical: 8,
-        backgroundColor: '#fff',
     },
 });
