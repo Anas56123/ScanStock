@@ -1,7 +1,7 @@
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
-import { Alert, ScrollView, StyleSheet, View } from 'react-native';
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { ActivityIndicator, Divider, Text, useTheme } from 'react-native-paper';
 import { CustomButton } from '../../components/Button';
 import { CustomCard } from '../../components/Card';
@@ -65,47 +65,60 @@ export default function ProductDetailsScreen() {
     }
 
     return (
-        <ScrollView style={[styles.container, { backgroundColor: theme.colors.background }]}>
-            <CustomCard style={styles.headerCard}>
-                <Text variant="headlineSmall" style={[styles.title, { color: theme.colors.onSurface }]}>{product.name}</Text>
-                <Text variant="bodyLarge" style={[styles.barcode, { color: theme.colors.onSurfaceVariant }]}>{product.barcode}</Text>
-                <Divider style={styles.divider} />
-                <View style={styles.infoRow}>
-                    <View>
-                        <Text variant="labelMedium" style={{ color: theme.colors.onSurfaceVariant }}>In Stock</Text>
-                        <Text variant="displaySmall" style={[styles.stockValue, { color: '#4CAF50' }]}>{product.quantity}</Text>
+        <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={{ flex: 1 }}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
+        >
+            <ScrollView
+                style={[styles.container, { backgroundColor: theme.colors.background }]}
+                contentContainerStyle={styles.scrollContent}
+                keyboardShouldPersistTaps="handled"
+                keyboardDismissMode="on-drag"
+            >
+                <CustomCard style={styles.headerCard}>
+                    <Text variant="headlineSmall" style={[styles.title, { color: theme.colors.onSurface }]}>{product.name}</Text>
+                    <Text variant="bodyLarge" style={[styles.barcode, { color: theme.colors.onSurfaceVariant }]}>{product.barcode}</Text>
+                    <Divider style={styles.divider} />
+                    <View style={styles.infoRow}>
+                        <View>
+                            <Text variant="labelMedium" style={{ color: theme.colors.onSurfaceVariant }}>In Stock</Text>
+                            <Text variant="displaySmall" style={[styles.stockValue, { color: '#4CAF50' }]}>{product.quantity}</Text>
+                        </View>
+                        <View style={styles.alignEnd}>
+                            <Text variant="labelMedium" style={{ color: theme.colors.onSurfaceVariant }}>Price</Text>
+                            <Text variant="displaySmall" style={[styles.priceValue, { color: theme.colors.primary }]}>${product.price.toFixed(2)}</Text>
+                        </View>
                     </View>
-                    <View style={styles.alignEnd}>
-                        <Text variant="labelMedium" style={{ color: theme.colors.onSurfaceVariant }}>Price</Text>
-                        <Text variant="displaySmall" style={[styles.priceValue, { color: theme.colors.primary }]}>${product.price.toFixed(2)}</Text>
-                    </View>
-                </View>
-            </CustomCard>
+                </CustomCard>
 
-            <CustomCard style={styles.saleCard}>
-                <Text variant="titleLarge" style={[styles.saleTitle, { color: theme.colors.onSurface }]}>Process Sale</Text>
-                <CustomInput
-                    label="Quantity to Sell"
-                    value={quantityToSell}
-                    onChangeText={setQuantityToSell}
-                    keyboardType="numeric"
-                    placeholder="Enter quantity"
-                />
-                <CustomButton
-                    onPress={handleConfirmSale}
-                    loading={isSelling}
-                    disabled={isSelling}
-                >
-                    Confirm Sale
-                </CustomButton>
-            </CustomCard>
-        </ScrollView>
+                <CustomCard style={styles.saleCard}>
+                    <Text variant="titleLarge" style={[styles.saleTitle, { color: theme.colors.onSurface }]}>Process Sale</Text>
+                    <CustomInput
+                        label="Quantity to Sell"
+                        value={quantityToSell}
+                        onChangeText={setQuantityToSell}
+                        keyboardType="numeric"
+                        placeholder="Enter quantity"
+                    />
+                    <CustomButton
+                        onPress={handleConfirmSale}
+                        loading={isSelling}
+                        disabled={isSelling}
+                    >
+                        Confirm Sale
+                    </CustomButton>
+                </CustomCard>
+            </ScrollView>
+        </KeyboardAvoidingView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+    },
+    scrollContent: {
         padding: 16,
     },
     center: {

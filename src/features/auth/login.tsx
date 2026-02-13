@@ -38,8 +38,13 @@ export default function LoginScreen() {
         <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={[styles.container, { backgroundColor: theme.colors.background }]}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
         >
-            <ScrollView contentContainerStyle={styles.scrollContent}>
+            <ScrollView
+                contentContainerStyle={styles.scrollContent}
+                keyboardShouldPersistTaps="handled"
+                keyboardDismissMode="on-drag"
+            >
                 <View style={styles.header}>
                     <Text variant="displaySmall" style={[styles.title, { color: theme.colors.primary }]}>ScanStock</Text>
                     <Text variant="bodyLarge" style={{ color: theme.colors.onSurfaceVariant }}>Welcome back!</Text>

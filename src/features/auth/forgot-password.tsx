@@ -37,8 +37,13 @@ export default function ForgotPasswordScreen() {
         <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={[styles.container, { backgroundColor: theme.colors.background }]}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
         >
-            <ScrollView contentContainerStyle={styles.scrollContent}>
+            <ScrollView
+                contentContainerStyle={styles.scrollContent}
+                keyboardShouldPersistTaps="handled"
+                keyboardDismissMode="on-drag"
+            >
                 <View style={styles.header}>
                     <Text variant="headlineLarge" style={[styles.title, { color: theme.colors.primary }]}>Reset Password</Text>
                     <Text variant="bodyLarge" style={[styles.subtitle, { color: theme.colors.onSurfaceVariant }]}>
