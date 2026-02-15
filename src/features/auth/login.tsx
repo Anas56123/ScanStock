@@ -3,6 +3,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { supabase } from '../../api/supabase';
 import { CustomButton } from '../../components/Button';
 import { CustomInput } from '../../components/Input';
@@ -35,70 +36,72 @@ export default function LoginScreen() {
     };
 
     return (
-        <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={[styles.container, { backgroundColor: theme.colors.background }]}
-            keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
-        >
-            <ScrollView
-                contentContainerStyle={styles.scrollContent}
-                keyboardShouldPersistTaps="handled"
-                keyboardDismissMode="on-drag"
+        <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }} edges={['bottom', 'left', 'right']}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                style={{ flex: 1 }}
+                keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
             >
-                <View style={styles.header}>
-                    <Text variant="displaySmall" style={[styles.title, { color: theme.colors.primary }]}>ScanStock</Text>
-                    <Text variant="bodyLarge" style={{ color: theme.colors.onSurfaceVariant }}>Welcome back!</Text>
-                </View>
-
-                <View style={styles.form}>
-                    <CustomInput
-                        label="Email"
-                        value={email}
-                        onChangeText={setEmail}
-                        keyboardType="email-address"
-                        autoCapitalize="none"
-                        left={<CustomInput.Icon icon="email" />}
-                    />
-                    <CustomInput
-                        label="Password"
-                        value={password}
-                        onChangeText={setPassword}
-                        secureTextEntry
-                        left={<CustomInput.Icon icon="lock" />}
-                    />
-
-                    <CustomButton
-                        onPress={() => navigation.navigate('ForgotPassword')}
-                        mode="text"
-                        style={styles.forgotBtn}
-                    >
-                        Forgot Password?
-                    </CustomButton>
-
-                    <CustomButton
-                        onPress={handleLogin}
-                        loading={loading}
-                        disabled={loading}
-                        style={styles.loginBtn}
-                    >
-                        Login
-                    </CustomButton>
-
-                    <View style={styles.footer}>
-                        <Text variant="bodyMedium" style={{ color: theme.colors.onSurfaceVariant }}>
-                            Don't have an account?{' '}
-                        </Text>
-                        <CustomButton
-                            onPress={() => navigation.navigate('Signup')}
-                            mode="text"
-                            compact
-                        >
-                            Sign Up
-                        </CustomButton>
+                <ScrollView
+                    contentContainerStyle={styles.scrollContent}
+                    keyboardShouldPersistTaps="handled"
+                    keyboardDismissMode="on-drag"
+                >
+                    <View style={styles.header}>
+                        <Text variant="displaySmall" style={[styles.title, { color: theme.colors.primary }]}>ScanStock</Text>
+                        <Text variant="bodyLarge" style={{ color: theme.colors.onSurfaceVariant }}>Welcome back!</Text>
                     </View>
-                </View>
-            </ScrollView>
-        </KeyboardAvoidingView>
+
+                    <View style={styles.form}>
+                        <CustomInput
+                            label="Email"
+                            value={email}
+                            onChangeText={setEmail}
+                            keyboardType="email-address"
+                            autoCapitalize="none"
+                            left={<CustomInput.Icon icon="email" />}
+                        />
+                        <CustomInput
+                            label="Password"
+                            value={password}
+                            onChangeText={setPassword}
+                            secureTextEntry
+                            left={<CustomInput.Icon icon="lock" />}
+                        />
+
+                        <CustomButton
+                            onPress={() => navigation.navigate('ForgotPassword')}
+                            mode="text"
+                            style={styles.forgotBtn}
+                        >
+                            Forgot Password?
+                        </CustomButton>
+
+                        <CustomButton
+                            onPress={handleLogin}
+                            loading={loading}
+                            disabled={loading}
+                            style={styles.loginBtn}
+                        >
+                            Login
+                        </CustomButton>
+
+                        <View style={styles.footer}>
+                            <Text variant="bodyMedium" style={{ color: theme.colors.onSurfaceVariant }}>
+                                Don't have an account?{' '}
+                            </Text>
+                            <CustomButton
+                                onPress={() => navigation.navigate('Signup')}
+                                mode="text"
+                                compact
+                            >
+                                Sign Up
+                            </CustomButton>
+                        </View>
+                    </View>
+                </ScrollView>
+            </KeyboardAvoidingView>
+        </SafeAreaView>
     );
 }
 

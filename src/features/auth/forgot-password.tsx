@@ -3,6 +3,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { supabase } from '../../api/supabase';
 import { CustomButton } from '../../components/Button';
 import { CustomInput } from '../../components/Input';
@@ -34,52 +35,54 @@ export default function ForgotPasswordScreen() {
     };
 
     return (
-        <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={[styles.container, { backgroundColor: theme.colors.background }]}
-            keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
-        >
-            <ScrollView
-                contentContainerStyle={styles.scrollContent}
-                keyboardShouldPersistTaps="handled"
-                keyboardDismissMode="on-drag"
+        <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }} edges={['bottom', 'left', 'right']}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                style={{ flex: 1 }}
+                keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
             >
-                <View style={styles.header}>
-                    <Text variant="headlineLarge" style={[styles.title, { color: theme.colors.primary }]}>Reset Password</Text>
-                    <Text variant="bodyLarge" style={[styles.subtitle, { color: theme.colors.onSurfaceVariant }]}>
-                        Enter your email and we'll send you a link to reset your password.
-                    </Text>
-                </View>
+                <ScrollView
+                    contentContainerStyle={styles.scrollContent}
+                    keyboardShouldPersistTaps="handled"
+                    keyboardDismissMode="on-drag"
+                >
+                    <View style={styles.header}>
+                        <Text variant="headlineLarge" style={[styles.title, { color: theme.colors.primary }]}>Reset Password</Text>
+                        <Text variant="bodyLarge" style={[styles.subtitle, { color: theme.colors.onSurfaceVariant }]}>
+                            Enter your email and we'll send you a link to reset your password.
+                        </Text>
+                    </View>
 
-                <View style={styles.form}>
-                    <CustomInput
-                        label="Email"
-                        value={email}
-                        onChangeText={setEmail}
-                        keyboardType="email-address"
-                        autoCapitalize="none"
-                        left={<CustomInput.Icon icon="email" />}
-                    />
+                    <View style={styles.form}>
+                        <CustomInput
+                            label="Email"
+                            value={email}
+                            onChangeText={setEmail}
+                            keyboardType="email-address"
+                            autoCapitalize="none"
+                            left={<CustomInput.Icon icon="email" />}
+                        />
 
-                    <CustomButton
-                        onPress={handleReset}
-                        loading={loading}
-                        disabled={loading}
-                        style={styles.resetBtn}
-                    >
-                        Send Reset Link
-                    </CustomButton>
+                        <CustomButton
+                            onPress={handleReset}
+                            loading={loading}
+                            disabled={loading}
+                            style={styles.resetBtn}
+                        >
+                            Send Reset Link
+                        </CustomButton>
 
-                    <CustomButton
-                        onPress={() => navigation.goBack()}
-                        mode="text"
-                        style={styles.backBtn}
-                    >
-                        Back to Login
-                    </CustomButton>
-                </View>
-            </ScrollView>
-        </KeyboardAvoidingView>
+                        <CustomButton
+                            onPress={() => navigation.goBack()}
+                            mode="text"
+                            style={styles.backBtn}
+                        >
+                            Back to Login
+                        </CustomButton>
+                    </View>
+                </ScrollView>
+            </KeyboardAvoidingView>
+        </SafeAreaView>
     );
 }
 

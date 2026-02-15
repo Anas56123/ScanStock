@@ -4,6 +4,7 @@ import { CameraView, useCameraPermissions } from 'expo-camera';
 import React, { useState } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
 import { ActivityIndicator, Text } from 'react-native-paper';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { CustomButton } from '../../components/Button';
 import { RootStackParamList } from '../../types';
 import { useProductSearch } from './hooks';
@@ -59,7 +60,7 @@ export default function ScanScreen() {
     };
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container} edges={['bottom', 'left', 'right']}>
             <CameraView
                 style={StyleSheet.absoluteFillObject}
                 barcodeScannerSettings={{
@@ -84,7 +85,7 @@ export default function ScanScreen() {
                     <Text style={styles.loadingText}>Verifying product...</Text>
                 </View>
             )}
-        </View>
+        </SafeAreaView>
     );
 }
 

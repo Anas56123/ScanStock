@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { ActivityIndicator, Provider as PaperProvider } from 'react-native-paper';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { supabase } from './src/api/supabase';
 import { MainNavigator } from './src/navigation/MainNavigator';
 import { useStore } from './src/store';
@@ -50,14 +51,16 @@ export default function App() {
     }
 
     return (
-        <QueryClientProvider client={queryClient}>
-            <PaperProvider theme={theme}>
-                <NavigationContainer theme={theme as any}>
-                    <StatusBar style={isDarkMode ? 'light' : 'dark'} />
-                    <MainNavigator />
-                </NavigationContainer>
-            </PaperProvider>
-        </QueryClientProvider>
+        <SafeAreaProvider>
+            <QueryClientProvider client={queryClient}>
+                <PaperProvider theme={theme}>
+                    <NavigationContainer theme={theme as any}>
+                        <StatusBar style={isDarkMode ? 'light' : 'dark'} />
+                        <MainNavigator />
+                    </NavigationContainer>
+                </PaperProvider>
+            </QueryClientProvider>
+        </SafeAreaProvider>
     );
 }
 

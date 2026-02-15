@@ -3,6 +3,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { ActivityIndicator, Divider, Text, useTheme } from 'react-native-paper';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { CustomButton } from '../../components/Button';
 import { CustomCard } from '../../components/Card';
 import { CustomInput } from '../../components/Input';
@@ -65,52 +66,54 @@ export default function ProductDetailsScreen() {
     }
 
     return (
-        <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={{ flex: 1 }}
-            keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
-        >
-            <ScrollView
-                style={[styles.container, { backgroundColor: theme.colors.background }]}
-                contentContainerStyle={styles.scrollContent}
-                keyboardShouldPersistTaps="handled"
-                keyboardDismissMode="on-drag"
+        <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }} edges={['bottom', 'left', 'right']}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                style={{ flex: 1 }}
+                keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
             >
-                <CustomCard style={styles.headerCard}>
-                    <Text variant="headlineSmall" style={[styles.title, { color: theme.colors.onSurface }]}>{product.name}</Text>
-                    <Text variant="bodyLarge" style={[styles.barcode, { color: theme.colors.onSurfaceVariant }]}>{product.barcode}</Text>
-                    <Divider style={styles.divider} />
-                    <View style={styles.infoRow}>
-                        <View>
-                            <Text variant="labelMedium" style={{ color: theme.colors.onSurfaceVariant }}>In Stock</Text>
-                            <Text variant="displaySmall" style={[styles.stockValue, { color: '#4CAF50' }]}>{product.quantity}</Text>
+                <ScrollView
+                    style={styles.container}
+                    contentContainerStyle={styles.scrollContent}
+                    keyboardShouldPersistTaps="handled"
+                    keyboardDismissMode="on-drag"
+                >
+                    <CustomCard style={styles.headerCard}>
+                        <Text variant="headlineSmall" style={[styles.title, { color: theme.colors.onSurface }]}>{product.name}</Text>
+                        <Text variant="bodyLarge" style={[styles.barcode, { color: theme.colors.onSurfaceVariant }]}>{product.barcode}</Text>
+                        <Divider style={styles.divider} />
+                        <View style={styles.infoRow}>
+                            <View>
+                                <Text variant="labelMedium" style={{ color: theme.colors.onSurfaceVariant }}>In Stock</Text>
+                                <Text variant="displaySmall" style={[styles.stockValue, { color: '#4CAF50' }]}>{product.quantity}</Text>
+                            </View>
+                            <View style={styles.alignEnd}>
+                                <Text variant="labelMedium" style={{ color: theme.colors.onSurfaceVariant }}>Price</Text>
+                                <Text variant="displaySmall" style={[styles.priceValue, { color: theme.colors.primary }]}>${product.price.toFixed(2)}</Text>
+                            </View>
                         </View>
-                        <View style={styles.alignEnd}>
-                            <Text variant="labelMedium" style={{ color: theme.colors.onSurfaceVariant }}>Price</Text>
-                            <Text variant="displaySmall" style={[styles.priceValue, { color: theme.colors.primary }]}>${product.price.toFixed(2)}</Text>
-                        </View>
-                    </View>
-                </CustomCard>
+                    </CustomCard>
 
-                <CustomCard style={styles.saleCard}>
-                    <Text variant="titleLarge" style={[styles.saleTitle, { color: theme.colors.onSurface }]}>Process Sale</Text>
-                    <CustomInput
-                        label="Quantity to Sell"
-                        value={quantityToSell}
-                        onChangeText={setQuantityToSell}
-                        keyboardType="numeric"
-                        placeholder="Enter quantity"
-                    />
-                    <CustomButton
-                        onPress={handleConfirmSale}
-                        loading={isSelling}
-                        disabled={isSelling}
-                    >
-                        Confirm Sale
-                    </CustomButton>
-                </CustomCard>
-            </ScrollView>
-        </KeyboardAvoidingView>
+                    <CustomCard style={styles.saleCard}>
+                        <Text variant="titleLarge" style={[styles.saleTitle, { color: theme.colors.onSurface }]}>Process Sale</Text>
+                        <CustomInput
+                            label="Quantity to Sell"
+                            value={quantityToSell}
+                            onChangeText={setQuantityToSell}
+                            keyboardType="numeric"
+                            placeholder="Enter quantity"
+                        />
+                        <CustomButton
+                            onPress={handleConfirmSale}
+                            loading={isSelling}
+                            disabled={isSelling}
+                        >
+                            Confirm Sale
+                        </CustomButton>
+                    </CustomCard>
+                </ScrollView>
+            </KeyboardAvoidingView>
+        </SafeAreaView>
     );
 }
 

@@ -3,6 +3,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { FAB, Text, useTheme } from 'react-native-paper';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { CustomCard } from '../../components/Card';
 import { RootStackParamList } from '../../types';
 import { useCachedProducts } from './hooks';
@@ -13,7 +14,7 @@ export default function HomeScreen() {
     const { data: cachedProducts = [] } = useCachedProducts();
 
     return (
-        <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+        <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]} edges={['bottom', 'left', 'right']}>
             {cachedProducts.length === 0 ? (
                 <View style={styles.emptyState}>
                     <Text variant="headlineSmall" style={[styles.emptyText, { color: theme.colors.onSurfaceVariant }]}>
@@ -59,7 +60,7 @@ export default function HomeScreen() {
                 label="Scan Product"
                 color={theme.colors.onPrimary}
             />
-        </View>
+        </SafeAreaView>
     );
 }
 

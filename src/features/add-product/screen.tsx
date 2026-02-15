@@ -3,6 +3,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { CustomButton } from '../../components/Button';
 import { CustomCard } from '../../components/Card';
 import { CustomInput } from '../../components/Input';
@@ -45,62 +46,64 @@ export default function AddProductScreen() {
     };
 
     return (
-        <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={{ flex: 1 }}
-            keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
-        >
-            <ScrollView
-                style={[styles.container, { backgroundColor: theme.colors.background }]}
-                contentContainerStyle={styles.scrollContent}
-                keyboardShouldPersistTaps="handled"
-                keyboardDismissMode="on-drag"
+        <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }} edges={['bottom', 'left', 'right']}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                style={{ flex: 1 }}
+                keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
             >
-                <CustomCard style={styles.card}>
-                    <Text variant="headlineSmall" style={[styles.title, { color: theme.colors.onSurface }]}>New Product</Text>
-                    <Text variant="bodyMedium" style={[styles.subtitle, { color: theme.colors.onSurfaceVariant }]}>Enter the product details below</Text>
+                <ScrollView
+                    style={styles.container}
+                    contentContainerStyle={styles.scrollContent}
+                    keyboardShouldPersistTaps="handled"
+                    keyboardDismissMode="on-drag"
+                >
+                    <CustomCard style={styles.card}>
+                        <Text variant="headlineSmall" style={[styles.title, { color: theme.colors.onSurface }]}>New Product</Text>
+                        <Text variant="bodyMedium" style={[styles.subtitle, { color: theme.colors.onSurfaceVariant }]}>Enter the product details below</Text>
 
-                    <CustomInput
-                        label="Barcode"
-                        value={barcode}
-                        editable={false}
-                        left={<CustomInput.Icon icon="barcode" />}
-                    />
+                        <CustomInput
+                            label="Barcode"
+                            value={barcode}
+                            editable={false}
+                            left={<CustomInput.Icon icon="barcode" />}
+                        />
 
-                    <CustomInput
-                        label="Product Name"
-                        value={name}
-                        onChangeText={setName}
-                        placeholder="e.g. Organic Milk 1L"
-                    />
+                        <CustomInput
+                            label="Product Name"
+                            value={name}
+                            onChangeText={setName}
+                            placeholder="e.g. Organic Milk 1L"
+                        />
 
-                    <CustomInput
-                        label="Price ($)"
-                        value={price}
-                        onChangeText={setPrice}
-                        keyboardType="numeric"
-                        placeholder="0.00"
-                    />
+                        <CustomInput
+                            label="Price ($)"
+                            value={price}
+                            onChangeText={setPrice}
+                            keyboardType="numeric"
+                            placeholder="0.00"
+                        />
 
-                    <CustomInput
-                        label="Initial Quantity"
-                        value={quantity}
-                        onChangeText={setQuantity}
-                        keyboardType="numeric"
-                        placeholder="1"
-                    />
+                        <CustomInput
+                            label="Initial Quantity"
+                            value={quantity}
+                            onChangeText={setQuantity}
+                            keyboardType="numeric"
+                            placeholder="1"
+                        />
 
-                    <CustomButton
-                        onPress={handleSubmit}
-                        loading={isCreating}
-                        disabled={isCreating}
-                        style={styles.submitButton}
-                    >
-                        Add Product
-                    </CustomButton>
-                </CustomCard>
-            </ScrollView>
-        </KeyboardAvoidingView>
+                        <CustomButton
+                            onPress={handleSubmit}
+                            loading={isCreating}
+                            disabled={isCreating}
+                            style={styles.submitButton}
+                        >
+                            Add Product
+                        </CustomButton>
+                    </CustomCard>
+                </ScrollView>
+            </KeyboardAvoidingView>
+        </SafeAreaView>
     );
 }
 

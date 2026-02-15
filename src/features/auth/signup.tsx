@@ -3,6 +3,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { SegmentedButtons, Text, useTheme } from 'react-native-paper';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { supabase } from '../../api/supabase';
 import { CustomButton } from '../../components/Button';
 import { CustomInput } from '../../components/Input';
@@ -44,73 +45,75 @@ export default function SignupScreen() {
     };
 
     return (
-        <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={[styles.container, { backgroundColor: theme.colors.background }]}
-            keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
-        >
-            <ScrollView
-                contentContainerStyle={styles.scrollContent}
-                keyboardShouldPersistTaps="handled"
-                keyboardDismissMode="on-drag"
+        <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }} edges={['bottom', 'left', 'right']}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                style={{ flex: 1 }}
+                keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
             >
-                <View style={styles.header}>
-                    <Text variant="displaySmall" style={[styles.title, { color: theme.colors.primary }]}>Join Us</Text>
-                    <Text variant="bodyLarge" style={{ color: theme.colors.onSurfaceVariant }}>Create your ScanStock account</Text>
-                </View>
-
-                <View style={styles.form}>
-                    <Text variant="titleMedium" style={styles.label}>I am a:</Text>
-                    <SegmentedButtons
-                        value={role}
-                        onValueChange={value => setRole(value as UserRole)}
-                        buttons={[
-                            { value: 'customer', label: 'Customer', icon: 'account' },
-                            { value: 'seller', label: 'Seller', icon: 'store' },
-                        ]}
-                        style={styles.rolePicker}
-                    />
-
-                    <CustomInput
-                        label="Email"
-                        value={email}
-                        onChangeText={setEmail}
-                        keyboardType="email-address"
-                        autoCapitalize="none"
-                        left={<CustomInput.Icon icon="email" />}
-                    />
-                    <CustomInput
-                        label="Password"
-                        value={password}
-                        onChangeText={setPassword}
-                        secureTextEntry
-                        left={<CustomInput.Icon icon="lock" />}
-                    />
-
-                    <CustomButton
-                        onPress={handleSignup}
-                        loading={loading}
-                        disabled={loading}
-                        style={styles.signupBtn}
-                    >
-                        Create Account
-                    </CustomButton>
-
-                    <View style={styles.footer}>
-                        <Text variant="bodyMedium" style={{ color: theme.colors.onSurfaceVariant }}>
-                            Already have an account?{' '}
-                        </Text>
-                        <CustomButton
-                            onPress={() => navigation.navigate('Login')}
-                            mode="text"
-                            compact
-                        >
-                            Login
-                        </CustomButton>
+                <ScrollView
+                    contentContainerStyle={styles.scrollContent}
+                    keyboardShouldPersistTaps="handled"
+                    keyboardDismissMode="on-drag"
+                >
+                    <View style={styles.header}>
+                        <Text variant="displaySmall" style={[styles.title, { color: theme.colors.primary }]}>Join Us</Text>
+                        <Text variant="bodyLarge" style={{ color: theme.colors.onSurfaceVariant }}>Create your ScanStock account</Text>
                     </View>
-                </View>
-            </ScrollView>
-        </KeyboardAvoidingView>
+
+                    <View style={styles.form}>
+                        <Text variant="titleMedium" style={styles.label}>I am a:</Text>
+                        <SegmentedButtons
+                            value={role}
+                            onValueChange={value => setRole(value as UserRole)}
+                            buttons={[
+                                { value: 'customer', label: 'Customer', icon: 'account' },
+                                { value: 'seller', label: 'Seller', icon: 'store' },
+                            ]}
+                            style={styles.rolePicker}
+                        />
+
+                        <CustomInput
+                            label="Email"
+                            value={email}
+                            onChangeText={setEmail}
+                            keyboardType="email-address"
+                            autoCapitalize="none"
+                            left={<CustomInput.Icon icon="email" />}
+                        />
+                        <CustomInput
+                            label="Password"
+                            value={password}
+                            onChangeText={setPassword}
+                            secureTextEntry
+                            left={<CustomInput.Icon icon="lock" />}
+                        />
+
+                        <CustomButton
+                            onPress={handleSignup}
+                            loading={loading}
+                            disabled={loading}
+                            style={styles.signupBtn}
+                        >
+                            Create Account
+                        </CustomButton>
+
+                        <View style={styles.footer}>
+                            <Text variant="bodyMedium" style={{ color: theme.colors.onSurfaceVariant }}>
+                                Already have an account?{' '}
+                            </Text>
+                            <CustomButton
+                                onPress={() => navigation.navigate('Login')}
+                                mode="text"
+                                compact
+                            >
+                                Login
+                            </CustomButton>
+                        </View>
+                    </View>
+                </ScrollView>
+            </KeyboardAvoidingView>
+        </SafeAreaView>
     );
 }
 
